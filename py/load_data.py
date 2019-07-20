@@ -1,6 +1,7 @@
 import os, sys, argparse, glob
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
 
 proj_dir = os.path.join(os.environ['PROJ'], 'Tennant_Project')
 data_dir = os.path.join(proj_dir, 'data', 'python_3')
