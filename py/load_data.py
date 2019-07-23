@@ -23,22 +23,23 @@ def getSpatialBinsByBinWidth(bin_width, min_x_pos=0.0, max_x_pos=200.0):
 def getSpatialBinsByNumberOfBins(num_bins=100, min_x_pos=0.0, max_x_pos=200.0):
     return np.linspace(min_x_pos, max_x_pos, num_bins+1)
 
-def getSpatialHistForCell(spatial_firing_frame, cell_id, bins, density=False):
+def getSpatialSpikeCountForCell(spatial_firing_frame, cell_id, bins, density=False):
     firing_positions = spatial_firing_frame.loc[cell_id, 'x_position_cm']
     return np.histogram(firing_positions, bins=bins, density=density)
 
-def plotSpatialHistForCell(spatial_firing_frame, cell_id, bins, density=False):
+def plotSpatialSpikeCountForCell(spatial_firing_frame, cell_id, bins, density=False):
     firing_positions = spatial_firing_frame.loc[cell_id, 'x_position_cm']
     plt.hist(firing_positions, bins=bins, density=density, label=str(cell_id))
     plt.legend(fontsize='large')
     return None
 
-bins = getSpatialBinsByNumberOfBins()
+def plotAllSpatialSpikeCounts():
+    bins = getSpatialBinsByNumberOfBins()
+    for i, cell_id in enumerate(spatial_firing_frame.index.values):
+        plt.subplot(spatial_firing_frame.shape[0] ,1 ,i+1)
+        plotSpatialSpikeCountForCell(spatial_firing_frame, cell_id, bins)
+        if (i+1) == spatial_firing_frame.shape[0]:
+            plt.xlabel('position (cm)', fontsize='large')
 
-for i, cell_id in enumerate(spatial_firing_frame.index.values):
-    plt.subplot(10,1,i+1)
-    plotSpatialHistForCell(spatial_firing_frame, cell_id, bins)
-    if (i+1) == spatial_firing_frame.shape[0]:
-        plt.xlabel('position (cm)', fontsize='large')
 
-plt.show(block=False)
+
